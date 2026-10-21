@@ -186,6 +186,10 @@ fn hant_candidates() -> &'static [&'static str] {
             "adobe-source-han-sans/SourceHanSansTW-Regular.otf",
             "adobe-source-han-sans/SourceHanSansTC-Regular.otf",
             "opentype/adobe-source-han-sans/SourceHanSansTW-Regular.otf",
+            "NotoSansCJK-Regular.ttc",
+            "NotoSansCJKtc-Regular.otf",
+            "SourceHanSansTW-Regular.otf",
+            "SourceHanSansTC-Regular.otf",
         ]
     }
 }
@@ -361,6 +365,12 @@ mod tests {
             assert_eq!(hant_font_in(std::slice::from_ref(&only_sc), &['A']).map(|f| f.index), Some(3));
         }
         assert!(hant_font_in(std::slice::from_ref(&only_sc), &['體']).is_none());
+        let user = dir.join("user-fonts");
+        std::fs::create_dir_all(&user).unwrap();
+        std::fs::write(user.join("NotoSansCJKtc-Regular.otf"), face("Probe Sans TC")).unwrap();
+        if !cfg!(windows) && !cfg!(target_os = "macos") {
+            assert_eq!(hant_font_in(std::slice::from_ref(&user), &['A']).map(|f| f.family), Some("Probe Sans TC".to_string()));
+        }
         let _ = std::fs::remove_dir_all(&dir);
     }
 
