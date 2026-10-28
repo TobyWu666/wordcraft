@@ -217,8 +217,12 @@ impl Lang {
     /// The CJK characters of the Traditional Chinese catalogs, which an installed Traditional
     /// Chinese UI font must cover to be put first.
     pub fn hant_font_chars() -> Vec<char> {
-        let chars: std::collections::BTreeSet<char> =
-            Lang::all().filter(|l| l.prefers_hant()).flat_map(Lang::catalog_texts).flat_map(str::chars).filter(|c| wordcraft_fonts::is_cjk(*c)).collect();
+        let chars: std::collections::BTreeSet<char> = Lang::all()
+            .filter(|l| l.prefers_hant())
+            .flat_map(Lang::catalog_texts)
+            .flat_map(str::chars)
+            .filter(|c| wordcraft_fonts::is_cjk(*c))
+            .collect();
         chars.into_iter().collect()
     }
 

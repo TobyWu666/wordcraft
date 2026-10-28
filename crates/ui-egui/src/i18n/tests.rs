@@ -350,6 +350,7 @@ fn chinese_interface_fonts_load_and_cover_simplified_hanzi() {
 
 #[test]
 fn traditional_chinese_interface_puts_an_installed_traditional_font_first() {
+    needs_catalogs!();
     assert!(Lang::all().filter(|l| l.prefers_hant()).map(Lang::code).eq(["zh-hant"]));
     assert!(lang("zh-hant").prefers_hans());
     assert!(Lang::hant_font_chars().contains(&'說'));
